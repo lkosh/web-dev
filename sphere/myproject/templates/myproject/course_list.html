@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Список курсов</h1>
+	<a href="{% url 'add_course' %}"> Добавить </a>       
+
+    {% if courses %}
+    <ul>
+
+      {% for course in courses %}
+      <li>
+        <a href="{{ course.get_absolute_url }}">{{ course.title }}</a> ({{course.professor}})
+        {{course.LikeModel_set.all.count}}
+      </li>
+      {% endfor %}
+	
+    </ul>
+    {% else %}
+      <p>There are no books in the library.</p>
+    {% endif %}       
+{% endblock %}

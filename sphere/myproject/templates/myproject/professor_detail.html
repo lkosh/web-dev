@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Профессор </h1>
+
+  <p><strong>ФИО:</strong> <a href="">{{ professor.name }}</a></p> <!-- author detail link not yet defined -->
+   Ведёт курсов: {{professor.courses.all.count}}<br/>
+         {% for course in professor.courses.all %}
+			<a href= "{{course.get_absolute_url }}"> {{course.title}}</a><br/>
+        {% endfor %}
+  <p><strong>Факультет:</strong> <a href="">{{ professor.faculty }}</a></p> 
+{% endblock %}

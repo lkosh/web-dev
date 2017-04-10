@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+{%block title %}
+<title>МФК. Факультеты</title>
+{% endblock %}
+{% block content %}
+  <h1>Факультет </h1>
+
+  <p><strong>Название:</strong> <a href="">{{ faculty.name }}</a></p> <!-- author detail link not yet defined -->
+   Курсов на факультете: {{faculty.courses.all.count}}<br/>
+         {% for course in faculty.courses.all %}
+			<a href= "{{course.get_absolute_url }}"> {{course.title}}</a><br/>
+        {% endfor %}
+		Лайков: {{likes.all.count }} от 
+		{% for like in likes %}
+		Пользователь: {{like.user}} 
+			{%endfor%}
+		<br/>
+		Комментарии: {{comments.all.count }}
+		{% for comment in comments %}
+		Пользователь {{comment.user}}
+		написал: "{{ comment.content }} "
+			{%endfor%}
+		
+		
+{% endblock %}

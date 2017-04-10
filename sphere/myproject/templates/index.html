@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'myproject/style.css' %}" media='screen'/>
+
+
+{% block header %}
+<h1 class = "header">Главная</h1>
+
+  <p>Сайт МФК</p>
+ {%endblock%}
+{% block content %}
+<h2>Содержание</h2>
+
+  <p>В данный момент доступно:</p>
+  <ul>
+    <li><strong><a href="courses">Курсы:</a></strong> {{ num_course }}</li>
+    <li><strong><a href="professors">Профессоры:</a></strong> {{ num_prof }}</li>
+    <li><strong><a href="faculties">Факультеты:</a></strong> {{ num_fac }}</li>
+    
+  </ul>
+  
+{% endblock %}

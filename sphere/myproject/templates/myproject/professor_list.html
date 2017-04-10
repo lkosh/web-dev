@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Список профессоров</h1>
+	<a href="{% url 'add_professor' %}"> Добавить </a>       
+
+    {% if professor_list %}
+    <ul>
+
+      {% for professor in professor_list %}
+      <li>
+        <a href="{{ professor.get_absolute_url }}">{{ professor.name }}</a> 
+
+      </li>
+      {% endfor %}
+  
+    </ul>
+    {% else %}
+      <p>Список преподаватель пуст.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,23 @@
+
+{% extends 'base_generic.html' %}
+{% load static %}
+
+<link rel="stylesheet" type="text/css" href="{% static '/style.css' %}" />
+  <meta charset="utf-8">
+
+
+
+{% block content %}
+    {% for faculty in faculties %}
+        <h6>{{faculty.name}}</h6>
+    {% endfor %}
+    <form method="post" class = 'form'>
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+               {{field.title}} {{field}}
+            </div>
+        {% endfor %}
+        <input type="submit" value="отправить"/>
+    </form>
+{% endblock %}

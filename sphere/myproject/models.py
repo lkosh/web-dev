@@ -5,6 +5,7 @@ from django.db import models
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.urls import reverse
 # Create your models here.
 class Course(models.Model):
 	FIRST = '1st'
@@ -20,6 +21,8 @@ class Course(models.Model):
 	faculty = models.ForeignKey('Faculty',  related_name='courses',  blank =True, null=True) 
 	sem = models.CharField(max_length = 20, choices = SEMESTER, default = FIRST) 
 	published_date = models.DateTimeField(blank=True, null=True)
+	def get_absolute_url(self):
+		return reverse('course_detail', args=[str(self.id)])
 	class Meta:
         	verbose_name='Курс'
        	 	verbose_name_plural='Курсы'
@@ -35,14 +38,23 @@ class Professor(models.Model):
 	faculty = models.ForeignKey(to = 'Faculty', related_name = 'professors',  blank =True, null=True)
 	published_date = models.DateTimeField(blank=True, null=True)
 	
+	
 	class Meta:
 		verbose_name='Профессор'
 		verbose_name_plural='Профессоры'
+		
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()    	
+
+	def find_courses(self):
+		return self.courses	
+		
 	def __unicode__(self):
 		return self.name
+
+	def get_absolute_url(self):
+		return reverse('professor_detail', args=[str(self.id)])
 		
 class Faculty(models.Model):	
 	VMK = 'ВМК'
@@ -61,20 +73,25 @@ class Faculty(models.Model):
 	(HUM, u'Гуманитарное'),
 	(TECH, u'Техническое'),
 	)
-	published_date = models.DateTimeField(blank=True, null=True)
+	published_date = models.DateTimeField(blank=True, null=True, verbose_name = 'дата публикации')
 	#course = models.ManyToMany(to=Course, blank = True, null=True)
 	#professor = models.ManyToMany(to=Professor, blank = True, null=True)
-	name = models.CharField(max_length = 255, blank = True, null=True, unique = True) 
-	field = models.CharField(max_length = 255,choices = FIELDS, blank = True, null=True)
+	name = models.CharField(max_length = 255, blank = True, null=True, unique = True, verbose_name = 'Название') 
+	field = models.CharField(max_length = 255,choices = FIELDS, blank = True, null=True, verbose_name='Область науки')
 	
+	def get_absolute_url(self):
+		return reverse('faculty_detail', args=[str(self.id)])
+
 	def find_courses(self):
 		return self.courses	
+
 	def publish(self):
 		self.published_date = timezone.now()
 		self.save()
 	class Meta:
         	verbose_name='Факультет'
         	verbose_name_plural='Факультеты'
+
 	def __unicode__(self):
 		return self.name
 		
@@ -92,6 +109,8 @@ class Comment(models.Model):
 	object_id = models.PositiveIntegerField(null = True, blank = True)
 	content_object = GenericForeignKey('content_type', 'object_id')
 	
+	def get_absolute_url(self):
+		return reverse('course-detail', args=[str(self.id)])	
 	class Meta:
         	verbose_name='Комментарий'
         	verbose_name_plural='Комментарии'
@@ -117,6 +136,8 @@ class LikeModel(models.Model):
    
     timestamp = models.DateTimeField(auto_now_add=True, blank =True, null=True)
     
+    def get_absolute_url(self):
+		return reverse('course-detail', args=[str(self.id)])
     class Meta:
         	verbose_name='Лайк'
         	verbose_name_plural='Лайки'

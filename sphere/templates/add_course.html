@@ -1,0 +1,20 @@
+{% extends 'base_generic.html' %}
+
+
+
+{% block content %}
+	<h1> Добавьте новый курс</h1>
+    {% for course in courses %}
+        <h6>{{course.title}}</h6>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+               {{field.name}} {{field}}
+            </div>
+        {% endfor %}
+        <input type="submit" value="отправить"/>
+    </form>
+{% endblock %}
+

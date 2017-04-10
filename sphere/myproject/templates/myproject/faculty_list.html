@@ -1,0 +1,21 @@
+
+{% extends 'base_generic.html' %}
+
+{% block title %}
+    Карты. {{ block.super }}
+{% endblock %}
+
+{% block content %}
+    {% for faculty in faculties %}
+        <h1>{{faculty.name}}</h1>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+               {{field.label}} {{field}}
+            </div>
+        {% endfor %}
+        <input type="submit" value="отправить"/>
+    </form>
+{% endblock %}

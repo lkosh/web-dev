@@ -13,17 +13,18 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "sphere.settings")
 
 import django
 django.setup()
-
+from django.db import connection
 from myproject.models import Course, Professor, LikeModel, Comment, Faculty 
 from django.utils import timezone
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from django.conf import settings
-N = 1000
+N = 10
 SUBJECT = set(['психологию_', 'история_', 'физика_', 'математик_', 'биология_', 'экономика_'])
 	
 def add_data():
+	print len(connection.queries)
 	Course.objects.all().delete()
 	Faculty.objects.all().delete()
 	Professor.objects.all().delete()
@@ -34,37 +35,55 @@ def add_data():
 	prof_arr = []
 	fac_arr = []
 	like_arr = []
+	print "quaries ", len(connection.queries)
 	for i in range(1, N+1):
 		length = random.randint(10, 50)
-		print i
-		#course_name = random.sample(set(['Введение в', 'Рассказ о', 'Начало']), 1) + random.sample(set(SUBJECT), 1) +unicode(i)
-		course_name = 'Курс' #+ unicode(i)
-		lector_name = 'профессор'  +  str(i)
-		faculty_name = 'факультет ' + str(i)
 		
-		faculty = Faculty( name = faculty_name)
-		
-		professor = Professor( name = lector_name, faculty = faculty)
-		
-		course = Course(title = course_name, professor =  professor, faculty = faculty)
-		
-		#like_arr.append(Like(content_type = random.sample(set(['Faculty', 'Professor', 'Course'])), 1), object_id = object_id)
-		object_id = random.randint(1, i )
-		content_type = Faculty
-		like_arr.append(LikeModel(object_id = object_id))
-		content = " Комментарий"+ str(i)
-		comm_arr.append(Comment(content = content))
+
+		faculty_name = "Факультет" + str(i)
+		faculty = Faculty( name = faculty_name, id = i)		
 		
 		fac_arr.append(faculty)
-		prof_arr.append(professor)  
-		
-		course_arr.append(course) 
 
-	Faculty.objects.bulk_create(fac_arr)
+	list_of_objects = Faculty.objects.bulk_create(fac_arr)
+
+	prof_arr = []
+	prof_fac = []
+	print "quaries ", len(connection.queries)
+	
+	for i in range(1, N+1):
+		lector_name = 'профессор'  +  str(i)
+		faculty_id = random.randint(1, N-1)
+		faculty = fac_arr[faculty_id]
+		professor = Professor( name = lector_name, faculty = faculty, id = i)
+		prof_arr.append(professor)
+		
 	Professor.objects.bulk_create(prof_arr)
+	print "	quaries", len(connection.queries)
+	
+	for i in range(1, N+1):
+		course_name = 'Курс' + str(i)
+		prof_id = random.randint(1,N-1)
+		professor = prof_arr[prof_id]
+		faculty = professor.faculty
+		course = Course(title = course_name, professor = professor, faculty = faculty, id = i)
+		course_arr.append(course) 
+		
 	Course.objects.bulk_create(course_arr)
-	Comment.objects.bulk_create(comm_arr)
+	
+	for i in range(1,N+1):
+		object_id = random.randint(1, N-1)
+		course = course_arr[object_id]
+		like_arr.append(LikeModel(content_object = course, object_id = object_id))
 	LikeModel.objects.bulk_create(like_arr)	
+		
+	for i in range(1, N+1):
+		object_id = random.randint(1, N-1)
+		course = course_arr[object_id]
+		content = " Комментарий"+ str(i)
+		comm_arr.append(Comment(content = content, content_object = course, object_id = object_id))
+	Comment.objects.bulk_create(comm_arr)
+	print "	quaries", len(connection.queries)
 if __name__ == '__main__':
     add_data()	
 	

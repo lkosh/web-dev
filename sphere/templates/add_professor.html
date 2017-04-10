@@ -1,0 +1,19 @@
+{% extends 'base_generic.html' %}
+
+
+
+{% block content %}
+	<h1> Добавьте нового профессора</h1>
+    {% for professor in professors %}
+        <h6>{{professor.name}}</h6>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div>
+               {{field.name}} {{field}}
+            </div>
+        {% endfor %}
+        <input type="submit" value="отправить"/>
+    </form>
+{% endblock %}

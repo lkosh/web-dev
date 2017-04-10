@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<div class="wrapper">
+<head>
+  
+  {% block title %}<title>МФК</title>{% endblock %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1"> 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+  <!-- Add additional CSS in static file -->
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<header class="header">
+	{% block header %} Сайт МФК {% endblock %}
+</header>
+<body>
+
+  <!-- <div class="container-fluid", class = "wrapper"> -->
+ 
+
+   <!-- <div class="row">
+      <div class="col-sm-2"> -->
+      {% block sidebar %}
+      <ul class="navigation">
+          <li class = "#" ><a href="{% url 'index' %}">Home</a></li>
+          <li class = "#"><a href="{% url 'login' %}"> Login</a></li>
+          <li class = "#"><a href = "{% url 'course_list' %}"> Все Курсы</a> </li>
+          <li class = "#"><a href = "{% url 'professor_list' %}"> Все Преподаватели</a> </li>
+          <li class = "#"><a href = "{% url 'faculty_list' %}"> Все Факультеты</a> </li>
+
+
+      </ul>
+     {% endblock %}
+   <!--   </div> -->
+      <!--<div class="col-sm-10 "> -->
+      <div class="main">
+      {% block content %}{% endblock %}
+      </div>
+   <!--   </div>
+    </div>
+-->
+	<footer class="footer"> Учебный проект Кошелевой Елены: lkosh96@mail.ru
+	   </footer>
+  </div>
+</body>
+</html>

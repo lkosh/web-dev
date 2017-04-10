@@ -1,0 +1,24 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1 class = "header">Профессор </h1>
+  <div class = 'main'>
+  <p><strong>ФИО:</strong> <a href="">{{ professor.name }}</a></p> <!-- author detail link not yet defined -->
+   Ведёт курсов: {{professor.courses.all.count}}<br/>
+         {% for course in professor.courses.all %}
+			<a href= "{{course.get_absolute_url }}"> {{course.title}}</a><br/>
+        {% endfor %}
+  <p><strong>Факультет:</strong> <a href="{{professor.faculty.get_absolute_url}}">{{ professor.faculty }}</a></p> </br>
+  Лайков: {{likes.all.count }}
+		{% for like in likes %}
+		Пользователь: {{like.user}} 
+			{%endfor%}
+			
+		<br/>
+		Комментарии: {{comments.all.count }}
+		{% for comment in comments %}
+		Пользователь {{comment.user}}
+		написал: "{{ comment.content }} "
+			{%endfor%}
+	</div>
+{% endblock %}

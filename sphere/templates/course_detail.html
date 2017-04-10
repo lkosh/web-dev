@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Курс </h1>
+
+  <p><strong>Название:</strong> <a href="">{{ course.title }}</a></p> <!-- author detail link not yet defined -->
+   Преподаватель: {{professor.name}}<br/>
+   Время: {{time}} <br/>
+   Место : {{place}} <br/>
+   Факультет: {{faculty.name}}<br/>
+   
+  Лайков: {{likes.all.count }}
+		{% for like in likes %}
+		(Пользователь: {{like.user}} 
+		)	{%endfor%}
+{% endblock %}

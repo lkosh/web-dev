@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Курсы: </h1>
+  <p><strong>Семестр:</strong> <a href="">{{ course.sem }}</a></p> 
+
+  <p><strong>Название:</strong> <a href="">{{ course.title }}</a></p> <!-- author detail link not yet defined -->
+  <p><strong> Профессор: </strong><a href = "{{course.professor.get_absolute_url}}">{{course.professor.name}}</a> </p>
+  <p><strong>Факультет:</strong> <a href="">{{ course.faculty }}</a></p> 
+  <p><strong>Время:</strong> <a href="">{{ course.time }}</a></p> 
+  <p><strong>Место:</strong> <a href="">{{ course.place }}</a></p> 
+  
+{% endblock %}
